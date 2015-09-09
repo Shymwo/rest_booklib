@@ -28,25 +28,24 @@ public class BookServiceImpl implements BookService {
 	private TokenUtil tokenUtil;
 
 	@Transactional
-	public Book addBook(Book book, String token) {
+	public void addBook(Book book, String token) {
 		validateRequiredFields(book);
 		if (tokenUtil.usePostToken(token)) {
 			book.setId(null);
 			book.setEtag(tokenUtil.getNewETag());
 			bookDao.addBook(book);
-			return book;
 		} else {
 			throw new TokenInvalidException();
 		}
 	}
 	
 	@Transactional
-	public Book addBook(Book book, String token, Integer authorId) {
+	public void addBook(Book book, String token, Integer authorId) {
 		if (authorId != null) {
 			book.setAuthor(new Author());
 			book.getAuthor().setId(authorId);
 		}
-		return addBook(book, token);
+		addBook(book, token);
 	}
 
 	@Transactional
@@ -56,8 +55,8 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Transactional
-	public void updateBook(Book book, Integer authorId, Integer readerId) {
-		Book temp = getBook(book.getId(), authorId, readerId);
+	public void updateBook(Book book, Integer authorId) {
+		Book temp = getBook(book.getId(), authorId, null);
 		updateBook(book, temp.getEtag());
 	}
 	
@@ -80,8 +79,8 @@ public class BookServiceImpl implements BookService {
 	}
 	
 	@Transactional
-	public void removeBook(Integer id, String eTag, Integer authorId, Integer readerId) {
-		Book book = getBook(id, authorId, readerId);
+	public void removeBook(Integer id, String eTag, Integer authorId) {
+		Book book = getBook(id, authorId, null);
 		removeBook(book, eTag);
 	}
 	
@@ -114,7 +113,7 @@ public class BookServiceImpl implements BookService {
 			throw new ContentNotFoundException();
 		}
 		if (readerId != null && 
-				(book.getReaderId() == null && !readerId.equals(book.getReaderId()))
+				(book.getReader() == null && !readerId.equals(book.getReader().getId()))
 			) {
 			throw new ContentNotFoundException();
 		}

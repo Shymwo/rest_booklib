@@ -1,14 +1,18 @@
 package put.poznan.rest.booklib.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
-import org.hibernate.Query;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import put.poznan.rest.booklib.dao.ReaderDao;
 import put.poznan.rest.booklib.model.Reader;
+
+import com.mysql.jdbc.StringUtils;
 
 @Repository
 public class ReaderDaoImpl implements ReaderDao {
@@ -27,33 +31,46 @@ public class ReaderDaoImpl implements ReaderDao {
 	}
 
 	@Override
-	public void removeReader(Integer id) {
-		Reader reader = (Reader) sessionFactory.getCurrentSession().load(
-				Reader.class, id);
-		if (reader != null) {
-			sessionFactory.getCurrentSession().delete(reader);
-		}
+	public void removeReader(Reader reader) {
+		sessionFactory.getCurrentSession().delete(reader);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Reader getReader(Integer id) {
-		Query query = sessionFactory.getCurrentSession().createQuery(
-				"from Reader where id = :readerId");
-		query.setParameter("readerId", id);
-		List<Reader> readers = query.list();
-		if (readers != null && !readers.isEmpty()) {
-			return readers.get(0);
-		} else {
-			return null;
-		}
+		return (Reader) sessionFactory.getCurrentSession().get(Reader.class, id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Reader> getAllReaders() {
-		return sessionFactory.getCurrentSession()
-				.createQuery("from Reader").list();
+	public List<Reader> getReaders(Map<String, String> params) {
+		Criteria cr = sessionFactory.getCurrentSession().createCriteria(Reader.class);
+		String nameLike = params.get("nameLike");
+		if (!StringUtils.isNullOrEmpty(nameLike)) {
+			cr.add(Restrictions.ilike("name", "%"+nameLike+"%"));
+		}
+		String lastnameLike = params.get("lastnameLike");
+		if (!StringUtils.isNullOrEmpty(lastnameLike)) {
+			cr.add(Restrictions.ilike("lastname", "%"+lastnameLike+"%"));
+		}
+		String pageStr = params.get("page");
+		String pageSizeStr = params.get("pageSize");
+		if (!StringUtils.isNullOrEmpty(pageStr) || !StringUtils.isNullOrEmpty(pageSizeStr)) {
+			Integer page;
+			Integer pageSize;
+			if (!StringUtils.isNullOrEmpty(pageStr)) {
+				page = Integer.parseInt(pageStr);
+			} else {
+				page = 0;
+			}
+			if (!StringUtils.isNullOrEmpty(pageSizeStr)) {
+				pageSize = Integer.parseInt(pageSizeStr);
+			} else {
+				pageSize = 10;
+			}
+			cr.setFirstResult(page*pageSize);
+			cr.setMaxResults(pageSize);
+		}
+		return cr.list();
 	}
 
 }

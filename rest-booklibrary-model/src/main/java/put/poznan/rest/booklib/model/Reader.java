@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="czytelnicy")
 public class Reader {
@@ -16,6 +18,10 @@ public class Reader {
 	@Column(name="id")
 	@GeneratedValue
 	private Integer id;
+	
+	@Column(name="etag")
+	@JsonIgnore
+	private String etag;
 	
 	@Column(name="imie")
 	private String name;
@@ -89,6 +95,14 @@ public class Reader {
 
 	public void setTelephoneNumber(String telephoneNumber) {
 		this.telephoneNumber = telephoneNumber;
+	}
+
+	public String getEtag() {
+		return etag;
+	}
+
+	public void setEtag(String etag) {
+		this.etag = etag;
 	}
 	
 }

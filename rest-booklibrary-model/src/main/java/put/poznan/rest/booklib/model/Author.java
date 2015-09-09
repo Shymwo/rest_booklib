@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="autorzy")
 public class Author {
@@ -16,6 +18,10 @@ public class Author {
 	@Column(name="id")
 	@GeneratedValue
 	private Integer id;
+	
+	@Column(name="etag")
+	@JsonIgnore
+	private String etag;
 	
 	@Column(name="imie")
 	private String name;
@@ -89,6 +95,14 @@ public class Author {
 
 	public void setGenres(String genres) {
 		this.genres = genres;
+	}
+
+	public String getEtag() {
+		return etag;
+	}
+
+	public void setEtag(String etag) {
+		this.etag = etag;
 	}
 
 }

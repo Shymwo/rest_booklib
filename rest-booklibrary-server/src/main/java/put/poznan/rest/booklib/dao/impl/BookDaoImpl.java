@@ -44,10 +44,14 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public List<Book> getBooks(Map<String, String> params) {
 		Criteria cr = sessionFactory.getCurrentSession().createCriteria(Book.class, "book");
-		cr.createAlias("book.author", "author");
+		cr.createAlias("book.author", "author").createAlias("book.reader", "reader");
 		String titleLike = params.get("titleLike");
 		if (!StringUtils.isNullOrEmpty(titleLike)) {
 			cr.add(Restrictions.ilike("book.title", "%"+titleLike+"%"));
+		}
+		String authorId = params.get("authorId");
+		if (!StringUtils.isNullOrEmpty(authorId)) {
+			cr.add(Restrictions.eq("author.id", Integer.parseInt(authorId)));
 		}
 		String authorNameLike = params.get("authorNameLike");
 		if (!StringUtils.isNullOrEmpty(authorNameLike)) {
@@ -60,6 +64,10 @@ public class BookDaoImpl implements BookDao {
 		String genreLike = params.get("genreLike");
 		if (!StringUtils.isNullOrEmpty(genreLike)) {
 			cr.add(Restrictions.ilike("book.genre", "%"+genreLike+"%"));
+		}
+		String readerId = params.get("readerId");
+		if (!StringUtils.isNullOrEmpty(readerId)) {
+			cr.add(Restrictions.eq("reader.id", Integer.parseInt(readerId)));
 		}
 		String pageStr = params.get("page");
 		String pageSizeStr = params.get("pageSize");

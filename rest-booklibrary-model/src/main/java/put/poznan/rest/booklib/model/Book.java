@@ -47,8 +47,9 @@ public class Book {
     @JoinColumn(name="autor_id")
     private Author author;
 
-	@Column(name="czytelnik_id")
-	private Integer readerId;
+	@ManyToOne
+	@JoinColumn(name="czytelnik_id")
+	private Reader reader;
 
 	public Integer getId() {
 		return id;
@@ -122,12 +123,12 @@ public class Book {
 		this.author = author;
 	}
 
-	public Integer getReaderId() {
-		return readerId;
+	public Reader getReader() {
+		return reader;
 	}
 
-	public void setReaderId(Integer readerId) {
-		this.readerId = readerId;
+	public void setReader(Reader reader) {
+		this.reader = reader;
 	}
 
 }
