@@ -1,0 +1,35 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<h:form>
+		<p:messages id="messages" showDetail="true" />
+		<p:dataTable var="book" value="#{basicView.books}">
+		    <p:column headerText="Id">
+		        <h:outputText value="#{book.id}" />
+		    </p:column>
+		 
+		    <p:column headerText="Title">
+		        <h:outputText value="#{book.title}" />
+		    </p:column>
+		 
+		    <p:column headerText="Author">
+		        <h:outputText value="#{book.author.name} #{book.author.lastname}" />
+		    </p:column>
+		 
+		    <p:column headerText="Genre">
+		        <h:outputText value="#{book.genre}" />
+		    </p:column>
+		</p:dataTable>
+	</h:form>
+</ui:define>
+
+</ui:composition>

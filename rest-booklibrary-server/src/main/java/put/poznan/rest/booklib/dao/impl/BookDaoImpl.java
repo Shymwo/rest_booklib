@@ -45,7 +45,8 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public List<Book> getBooks(Map<String, String> params) {
 		Criteria cr = sessionFactory.getCurrentSession().createCriteria(Book.class, "book");
-		cr.createAlias("book.author", "author").createAlias("book.reader", "reader");
+		cr.createAlias("book.author", "author");
+		cr.createAlias("book.reader", "reader", Criteria.LEFT_JOIN);
 		String titleLike = params.get("titleLike");
 		if (!StringUtils.isNullOrEmpty(titleLike)) {
 			cr.add(Restrictions.ilike("book.title", "%"+titleLike+"%"));
