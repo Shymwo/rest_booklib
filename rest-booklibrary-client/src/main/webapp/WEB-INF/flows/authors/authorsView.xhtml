@@ -1,0 +1,42 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<p:dataTable var="author" value="#{authorsBean.authors}">
+	    <p:column headerText="Id">
+	        <h:outputText value="#{author.id}" />
+	    </p:column>
+	 
+	    <p:column headerText="Name">
+	        <h:outputText value="#{author.name}" />
+	    </p:column>
+	 
+	    <p:column headerText="Lastname">
+	        <h:outputText value="#{author.lastname}" />
+	    </p:column>
+	 
+	    <p:column headerText="Genres">
+	        <h:outputText value="#{author.genres}" />
+	    </p:column>
+	    
+	    <p:column headerText="Nationality">
+	        <h:outputText value="#{author.nationality}" />
+	    </p:column>
+	    
+	    <p:column width="40">
+	    	<p:commandButton action="details" id="detailsButton" 
+	    		icon="ui-icon-search" title="Details" />
+	    </p:column>
+
+	</p:dataTable>
+</ui:define>
+
+</ui:composition>

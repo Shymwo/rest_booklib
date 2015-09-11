@@ -1,0 +1,48 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<p:dataTable var="book" value="#{booksBean.books}">
+		<p:column headerText="Id">
+			<h:outputText value="#{book.id}" />
+		</p:column>
+		
+		<p:column headerText="Title">
+			<h:outputText value="#{book.title}" />
+		</p:column>
+		
+		<p:column headerText="Author">
+			<h:outputText value="#{book.author.name} #{book.author.lastname}" />
+		</p:column>
+		
+		<p:column headerText="Genre">
+			<h:outputText value="#{book.genre}" />
+		</p:column>
+		
+		<p:column headerText="Language">
+			<h:outputText value="#{book.language}" />
+		</p:column>
+		
+		<p:column width="90">
+			<p:commandButton action="details" id="detailsButton" 
+				icon="ui-icon-search" title="Details" />
+			<p:commandButton action="delete" id="deleteButton"
+				icon="ui-icon-close" title="Delete" />
+		</p:column>
+
+	</p:dataTable>
+	
+	<p:commandButton action="add" id="addButton"
+		icon="ui-icon-plus" value="Add new book" />
+		
+</ui:define>
+
+</ui:composition>

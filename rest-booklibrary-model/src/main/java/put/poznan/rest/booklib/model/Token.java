@@ -1,5 +1,6 @@
 package put.poznan.rest.booklib.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,8 +10,10 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="tokeny")
-public class Token {
+public class Token implements Serializable {
 	
+	private static final long serialVersionUID = -4034899849660868808L;
+
 	@Id
 	@Column(name="token")
 	private String token;

@@ -9,12 +9,36 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>REST Book Library</title>
+	<link rel="stylesheet" type="text/css" href="${request.contextPath}/app/resources/styles/default.css" />
 	<ui:insert name="headIncludes"/>
 </h:head>
 <h:body style="font-family: Arial">
 <div class="container">
-    <div>	
-		<ui:insert name="content"/>	
+	<div class="title">
+		<h:outputText value="REST Book Library" />
+	</div>
+	<div class="menu">
+		<h:form id="menuForm">
+			<p:tabMenu activeIndex="#{flowScope.index}">
+			    <p:menuitem value="Books" url="books" icon="ui-icon-bookmark" />
+			    <p:menuitem value="Authors" url="authors" icon="ui-icon-person" />
+			    <p:menuitem value="Readers" url="readers" icon="ui-icon-contact" />
+			</p:tabMenu>
+		</h:form>
+	</div>
+    <div class="content">
+    	<h:form id="messagesForm">
+        	<p:messages id="messages" showDetail="false" autoUpdate="true" closable="false" />
+        </h:form>
+    	<h:form id="form">
+			<ui:insert name="content"/>
+		</h:form>
+		<h:form>
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+		        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+		        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+		    </p:confirmDialog>
+		</h:form>
     </div>
 </div>
 </h:body>

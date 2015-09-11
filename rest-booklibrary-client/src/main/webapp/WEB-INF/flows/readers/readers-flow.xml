@@ -4,8 +4,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
 	parent="parent-flow">
 	
-	<var name="basicView" class="put.poznan.BasicView"/>
+	<var name="readersBean" class="put.poznan.ReadersBean"/>
 	
-	<view-state id="mainView" />
+	<on-start>
+		<set name="flowScope.index" value="2" />
+	</on-start>
+	
+	<view-state id="readersView" />
 
 </flow>

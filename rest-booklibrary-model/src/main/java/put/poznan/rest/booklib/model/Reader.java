@@ -1,5 +1,6 @@
 package put.poznan.rest.booklib.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,7 +13,9 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 
 @Entity
 @Table(name="czytelnicy")
-public class Reader {
+public class Reader implements Serializable {
+	
+	private static final long serialVersionUID = -3021973812347819044L;
 
 	@Id
 	@Column(name="id")
