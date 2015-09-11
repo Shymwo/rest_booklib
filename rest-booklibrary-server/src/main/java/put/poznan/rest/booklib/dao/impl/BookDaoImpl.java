@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -88,6 +89,14 @@ public class BookDaoImpl implements BookDao {
 			cr.setMaxResults(pageSize);
 		}
 		return cr.list();
+	}
+	
+	@Override
+	public void returnAllBooks(Integer readerId) {
+		Query query = sessionFactory.getCurrentSession().
+				createQuery("update ksiazki set czytelnik_id = null where czytelnik_id = :readerId");
+		query.setParameter("readerId", readerId);
+		query.executeUpdate();
 	}
 
 }

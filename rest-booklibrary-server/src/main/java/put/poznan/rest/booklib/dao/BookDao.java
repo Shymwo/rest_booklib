@@ -12,5 +12,6 @@ public interface BookDao {
 	public void removeBook(Book book);
 	public Book getBook(Integer id);
 	public List<Book> getBooks(Map<String, String> params);
+	public void returnAllBooks(Integer readerId);
 
 }

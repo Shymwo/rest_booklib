@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import put.poznan.rest.booklib.dao.BookDao;
+import put.poznan.rest.booklib.exception.BookAlreadyBorrowedException;
 import put.poznan.rest.booklib.exception.BookValidationException;
 import put.poznan.rest.booklib.exception.ContentNotFoundException;
 import put.poznan.rest.booklib.exception.ETagInvalidException;
@@ -15,6 +16,7 @@ import put.poznan.rest.booklib.exception.ETagNotProvidedException;
 import put.poznan.rest.booklib.exception.TokenInvalidException;
 import put.poznan.rest.booklib.model.Author;
 import put.poznan.rest.booklib.model.Book;
+import put.poznan.rest.booklib.model.Reader;
 import put.poznan.rest.booklib.service.BookService;
 import put.poznan.rest.booklib.util.TokenUtil;
 
@@ -113,7 +115,7 @@ public class BookServiceImpl implements BookService {
 			throw new ContentNotFoundException();
 		}
 		if (readerId != null && 
-				(book.getReader() == null && !readerId.equals(book.getReader().getId()))
+				(book.getReader() == null || !readerId.equals(book.getReader().getId()))
 			) {
 			throw new ContentNotFoundException();
 		}
@@ -131,6 +133,43 @@ public class BookServiceImpl implements BookService {
 				|| book.getAuthor() == null || book.getAuthor().getId() == null) {
 			throw new BookValidationException();
 		}
+	}
+
+	@Transactional
+	public void borrowBookByReader(Integer id, Integer readerId, String eTag) {
+		Book book = getBook(id);
+		if (book.getReader() != null && book.getReader().getId() != null) {
+			throw new BookAlreadyBorrowedException();
+		}
+		if (book.getEtag() == null) {
+			throw new ETagNotProvidedException(eTag);
+		}
+		if (!book.getEtag().equals(eTag)) {
+			throw new ETagInvalidException(eTag);
+		}
+		book.setEtag(tokenUtil.getNewETag());
+		book.setReader(new Reader());
+		book.getReader().setId(readerId);
+		bookDao.updateBook(book);
+	}
+
+	@Transactional
+	public void returnBookByReader(Integer id, Integer readerId, String eTag) {
+		Book book = getBook(id, null, readerId);
+		if (book.getEtag() == null) {
+			throw new ETagNotProvidedException(eTag);
+		}
+		if (!book.getEtag().equals(eTag)) {
+			throw new ETagInvalidException(eTag);
+		}
+		book.setEtag(tokenUtil.getNewETag());
+		book.setReader(null);
+		bookDao.updateBook(book);
+	}
+
+	@Transactional
+	public void returnAllBooks(Integer readerId) {
+		bookDao.returnAllBooks(readerId);
 	}
 
 }

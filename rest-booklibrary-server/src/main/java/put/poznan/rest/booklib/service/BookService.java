@@ -16,5 +16,8 @@ public interface BookService {
 	public Book getBook(Integer id);
 	public Book getBook(Integer id, Integer authorId, Integer readerId);
 	public List<Book> getBooks(Map<String, String> params);
+	public void borrowBookByReader(Integer id, Integer readerId, String eTag);
+	public void returnBookByReader(Integer id, Integer readerId, String eTag);
+	public void returnAllBooks(Integer readerId);
 	
 }
