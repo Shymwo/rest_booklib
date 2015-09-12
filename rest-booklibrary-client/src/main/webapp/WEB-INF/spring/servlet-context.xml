@@ -14,11 +14,10 @@
 	-->
 
 	<!-- Imports user-defined @Controller beans that process client requests -->
-	<import resource="controllers.xml" />
 	<import resource="webflow.xml" />
 
 	<!-- Scan for Spring beans declared via annotations. -->
-	<context:component-scan base-package="put.poznan"/>
+	<context:component-scan base-package="put.poznan.rest.booklib"/>
 
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />

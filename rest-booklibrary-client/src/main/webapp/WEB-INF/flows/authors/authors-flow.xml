@@ -4,7 +4,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/webflow http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd"
 	parent="parent-flow">
 	
-	<var name="authorsBean" class="put.poznan.AuthorsBean"/>
+	<var name="authorsBean" class="put.poznan.rest.booklib.bean.AuthorsBean"/>
 	
 	<on-start>
 		<set name="flowScope.index" value="1" />

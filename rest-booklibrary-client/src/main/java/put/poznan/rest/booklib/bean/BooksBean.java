@@ -1,4 +1,4 @@
-package put.poznan;
+package put.poznan.rest.booklib.bean;
 
 import java.io.Serializable;
 import java.util.List;
@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.web.client.RestTemplate;
 
 import put.poznan.rest.booklib.model.Book;
+import put.poznan.rest.booklib.util.PropertyUtil;
  
 public class BooksBean implements Serializable {
      
@@ -18,9 +19,9 @@ public class BooksBean implements Serializable {
 	@SuppressWarnings("unchecked")
 	@PostConstruct
 	public void init() {
-		String uri = "http://localhost:8080/rest-booklibrary-server/books";
+		String path = PropertyUtil.getProperty("rest.uri")+"/books";
 		RestTemplate restTemplate = new RestTemplate();
-		books = restTemplate.getForObject(uri, List.class);
+		books = restTemplate.getForObject(path, List.class);
 	}
 	
 	public List<Book> getBooks() {
