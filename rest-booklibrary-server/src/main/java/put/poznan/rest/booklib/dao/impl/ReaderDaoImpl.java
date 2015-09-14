@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class ReaderDaoImpl implements ReaderDao {
 
 	@Override
 	public void updateReader(Reader reader) {
-		sessionFactory.getCurrentSession().update(reader);
+		Session session = sessionFactory.getCurrentSession();
+		Reader oldReader = (Reader) session.merge(reader);
+		sessionFactory.getCurrentSession().update(oldReader);
 	}
 
 	@Override
@@ -37,6 +40,7 @@ public class ReaderDaoImpl implements ReaderDao {
 
 	@Override
 	public Reader getReader(Integer id) {
+		sessionFactory.getCurrentSession().flush();
 		return (Reader) sessionFactory.getCurrentSession().get(Reader.class, id);
 	}
 

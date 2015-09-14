@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.hibernate.Criteria;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,9 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public void updateAuthor(Author author) {
-		sessionFactory.getCurrentSession().update(author);
+		Session session = sessionFactory.getCurrentSession();
+		Author oldAuthor = (Author) session.merge(author);
+		sessionFactory.getCurrentSession().update(oldAuthor);
 	}
 
 	@Override
@@ -37,6 +40,7 @@ public class AuthorDaoImpl implements AuthorDao {
 
 	@Override
 	public Author getAuthor(Integer id) {
+		sessionFactory.getCurrentSession().flush();
 		return (Author) sessionFactory.getCurrentSession().get(Author.class, id);
 	}
 

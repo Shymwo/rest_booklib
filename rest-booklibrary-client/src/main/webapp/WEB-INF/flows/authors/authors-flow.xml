@@ -10,6 +10,33 @@
 		<set name="flowScope.index" value="1" />
 	</on-start>
 	
-	<view-state id="authorsView" />
+	<view-state id="authorsView">
+		<on-render>
+			<evaluate expression="authorsBean.loadNewRecord()" />
+			<evaluate expression="authorsBean.loadRecords()" />
+		</on-render>
+		<transition on="details" to="authorsDetailsView" />
+		<transition on="add" to="authorsEditView">
+			<set name="flowScope.editMode" value="'add'" />
+		</transition>
+	</view-state>
+	
+	<view-state id="authorsDetailsView">
+		<on-render>
+			<evaluate expression="authorsBean.loadRecord(flowScope.selectedId)" />
+		</on-render>
+		<transition on="edit" to="authorsEditView">
+			<set name="flowScope.editMode" value="'edit'" />
+		</transition>
+		<transition on="return" to="authorsView" />
+	</view-state>
+	
+	<view-state id="authorsEditView">
+		<transition on="return" to="returnFromEdit" />
+	</view-state>
+	
+	<decision-state id="returnFromEdit">
+		<if test="flowScope.editMode == 'edit'" then="authorsDetailsView" else="authorsView" />
+	</decision-state>
 
 </flow>

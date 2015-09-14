@@ -9,7 +9,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import put.poznan.rest.booklib.model.BaseModel;
@@ -86,7 +85,7 @@ public abstract class CommonBean<T extends BaseModel> implements Serializable {
 				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
 				return null;
 			}
-		} catch (HttpClientErrorException e) {
+		} catch (Exception e) {
 			FacesMessageUtil.showError(e);
 			return null;
 		}

@@ -17,3 +17,6 @@
 .ui-datatable {
 	margin: 10px 0px;
 }
+.ui-paginator {
+	text-align: left;
+}

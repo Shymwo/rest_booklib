@@ -10,38 +10,63 @@
 </ui:define>
 
 <ui:define name="content">
-	<p:dataTable var="author" value="#{authorsBean.authors}">
-	    <p:column headerText="Id">
-	        <h:outputText value="#{author.id}" />
-	    </p:column>
-	 
-	    <p:column headerText="Name">
-	        <h:outputText value="#{author.name}" />
-	    </p:column>
-	 
-	    <p:column headerText="Lastname">
-	        <h:outputText value="#{author.lastname}" />
-	    </p:column>
-	 
-	    <p:column headerText="Genres">
-	        <h:outputText value="#{author.genres}" />
-	    </p:column>
-	    
-	    <p:column headerText="Nationality">
-	        <h:outputText value="#{author.nationality}" />
-	    </p:column>
-	    
-	    <p:column width="40">
-	    	<p:commandButton action="details" id="detailsButton" 
-	    		icon="ui-icon-search" title="Details" />
-			<p:commandButton action="delete" id="deleteButton"
-				icon="ui-icon-close" title="Delete" />
+	<p:panel id="searchPanel" header="Search" toggleable="true" widgetVar="searchPanel" styleClass="search-panel">
+	
+		<h:panelGrid columns="4" styleClass="details-view">
+			
+			<p:outputLabel for="authorName" value="Name" />
+			<p:inputText id="authorName" value="#{authorsBean.nameLike}" />
+			
+			<p:outputLabel for="authorLastname" value="Lastname" />
+			<p:inputText id="authorLastname" value="#{authorsBean.lastnameLike}" />
+
+		</h:panelGrid>
+		
+		<p:commandButton value="Search" update="table" onclick="PF('searchPanel').toggle()"
+			actionListener="#{authorsBean.loadRecords()}" />
+	
+	</p:panel>
+	<p:dataTable id="table" var="author" value="#{authorsBean.records}" paginator="true" rows="10"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="5,10,15" paginatorPosition="bottom">
+		<f:facet name="header">
+			<h:outputText value="Authors" />
+		</f:facet>
+	
+		<p:column headerText="Id" sortBy="#{author.id}">
+			<h:outputText value="#{author.id}" />
+		</p:column>
+		
+		<p:column headerText="Name" sortBy="#{author.name}">
+			<h:outputText value="#{author.name}" />
+		</p:column>
+		
+		<p:column headerText="Lastname" sortBy="#{author.lastname}">
+			<h:outputText value="#{author.lastname}" />
+		</p:column>
+		
+		<p:column headerText="Nationality" sortBy="#{author.nationality}">
+			<h:outputText value="#{author.nationality}" />
+		</p:column>
+		
+		<p:column headerText="Genres" sortBy="#{author.genres}">
+			<h:outputText value="#{author.genres}" />
+		</p:column>
+		
+		<p:column width="40">
+			<p:commandButton action="details" id="detailsButton" 
+				icon="ui-icon-search" title="Details">
+				<f:setPropertyActionListener target="#{flowScope.selectedId}" value="#{author.id}" />
+			</p:commandButton>
 		</p:column>
 
 	</p:dataTable>
 	
 	<p:commandButton action="add" id="addButton"
-		icon="ui-icon-plus" value="Add new book" />
+		icon="ui-icon-plus" value="Add new">
+		<f:setPropertyActionListener target="#{flowScope.token}" value="#{authorsBean.createToken()}" />
+	</p:commandButton>
+		
 </ui:define>
 
 </ui:composition>

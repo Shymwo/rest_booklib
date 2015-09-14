@@ -32,28 +32,31 @@
 			actionListener="#{booksBean.loadRecords()}" />
 	
 	</p:panel>
-	<p:dataTable id="table" var="book" value="#{booksBean.records}">
+	<p:dataTable id="table" var="book" value="#{booksBean.records}" paginator="true" rows="10"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="5,10,15" paginatorPosition="bottom">
+		
 		<f:facet name="header">
 			<h:outputText value="Books" />
 		</f:facet>
 	
-		<p:column headerText="Id">
+		<p:column headerText="Id" sortBy="#{book.id}">
 			<h:outputText value="#{book.id}" />
 		</p:column>
 		
-		<p:column headerText="Title">
+		<p:column headerText="Title" sortBy="#{book.title}">
 			<h:outputText value="#{book.title}" />
 		</p:column>
 		
-		<p:column headerText="Author">
+		<p:column headerText="Author" sortBy="#{book.author.lastname}">
 			<h:outputText value="#{book.author.name} #{book.author.lastname}" />
 		</p:column>
 		
-		<p:column headerText="Genre">
+		<p:column headerText="Genre" sortBy="#{book.genre}">
 			<h:outputText value="#{book.genre}" />
 		</p:column>
 		
-		<p:column headerText="Language">
+		<p:column headerText="Language" sortBy="#{book.language}">
 			<h:outputText value="#{book.language}" />
 		</p:column>
 		

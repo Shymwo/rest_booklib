@@ -10,34 +10,59 @@
 </ui:define>
 
 <ui:define name="content">
-	<p:dataTable var="reader" value="#{readersBean.readers}">
-	    <p:column headerText="Id">
-	        <h:outputText value="#{reader.id}" />
-	    </p:column>
-	 
-	    <p:column headerText="Name">
-	        <h:outputText value="#{reader.name}" />
-	    </p:column>
-	 
-	    <p:column headerText="Lastname">
-	        <h:outputText value="#{reader.lastname}" />
-	    </p:column>
-	 
-	    <p:column headerText="Telephone">
-	        <h:outputText value="#{reader.telephoneNumber}" />
-	    </p:column>
-	    
-	    <p:column width="80">
-	    	<p:commandButton action="details" id="detailsButton" 
-	    		icon="ui-icon-search" title="Details" />
-			<p:commandButton action="delete" id="deleteButton"
-				icon="ui-icon-close" title="Delete" />
+	<p:panel id="searchPanel" header="Search" toggleable="true" widgetVar="searchPanel" styleClass="search-panel">
+	
+		<h:panelGrid columns="4" styleClass="details-view">
+			
+			<p:outputLabel for="name" value="Name" />
+			<p:inputText id="name" value="#{readersBean.nameLike}" />
+			
+			<p:outputLabel for="lastname" value="Lastname" />
+			<p:inputText id="lastname" value="#{readersBean.lastnameLike}" />
+
+		</h:panelGrid>
+		
+		<p:commandButton value="Search" update="table" onclick="PF('searchPanel').toggle()"
+			actionListener="#{readersBean.loadRecords()}" />
+	
+	</p:panel>
+	<p:dataTable id="table" var="reader" value="#{readersBean.records}" paginator="true" rows="10"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="5,10,15" paginatorPosition="bottom">
+		<f:facet name="header">
+			<h:outputText value="Readers" />
+		</f:facet>
+	
+		<p:column headerText="Id" sortBy="#{reader.id}">
+			<h:outputText value="#{reader.id}" />
+		</p:column>
+		
+		<p:column headerText="Name" sortBy="#{reader.name}">
+			<h:outputText value="#{reader.name}" />
+		</p:column>
+		
+		<p:column headerText="Lastname" sortBy="#{reader.lastname}">
+			<h:outputText value="#{reader.lastname}" />
+		</p:column>
+		
+		<p:column headerText="Telephone number" sortBy="#{reader.telephoneNumber}">
+			<h:outputText value="#{reader.telephoneNumber}" />
+		</p:column>
+		
+		<p:column width="40">
+			<p:commandButton action="details" id="detailsButton" 
+				icon="ui-icon-search" title="Details">
+				<f:setPropertyActionListener target="#{flowScope.selectedId}" value="#{reader.id}" />
+			</p:commandButton>
 		</p:column>
 
 	</p:dataTable>
 	
 	<p:commandButton action="add" id="addButton"
-		icon="ui-icon-plus" value="Add new book" />
+		icon="ui-icon-plus" value="Add new">
+		<f:setPropertyActionListener target="#{flowScope.token}" value="#{readersBean.createToken()}" />
+	</p:commandButton>
+		
 </ui:define>
 
 </ui:composition>

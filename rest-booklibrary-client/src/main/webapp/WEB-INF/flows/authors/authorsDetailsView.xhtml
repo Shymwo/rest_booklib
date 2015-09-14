@@ -1,0 +1,55 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<h:panelGrid columns="4" rendered="#{authorsBean.selectedRecord != null}" styleClass="details-view">
+		<p:outputLabel for="authorId" value="Id" />
+		<h:outputText id="authorId" value="#{authorsBean.selectedRecord.id}" />
+		
+		<h:outputText />
+		<h:outputText />
+		
+		<p:outputLabel for="name" value="Name" />
+		<h:outputText id="name" value="#{authorsBean.selectedRecord.name}" />
+		
+		<p:outputLabel for="lastname" value="Lastname" />
+		<h:outputText id="lastname" value="#{authorsBean.selectedRecord.lastname}" />
+				
+		<p:outputLabel for="genres" value="Genres" />
+		<h:outputText id="genres" value="#{authorsBean.selectedRecord.genres}" />
+		
+		<p:outputLabel for="nationality" value="Nationality" />
+		<h:outputText id="nationality" value="#{authorsBean.selectedRecord.nationality}" />
+		
+		<p:outputLabel for="birthDate" value="Birth Date" />
+		<h:outputText id="birthDate" value="#{authorsBean.selectedRecord.birthDate}">
+			<f:convertDateTime pattern="yyyy-MM-dd" />
+		</h:outputText>
+		
+		<p:outputLabel for="deathDate" value="Death Date" />
+		<h:outputText id="deathDate" value="#{authorsBean.selectedRecord.deathDate}">
+			<f:convertDateTime pattern="yyyy-MM-dd" />
+		</h:outputText>	
+
+	</h:panelGrid>
+	
+	<p:commandButton action="edit" id="editButton"
+		icon="ui-icon-pencil" value="Edit" rendered="#{authorsBean.selectedRecord != null}" />
+	<p:commandButton action="#{authorsBean.deleteRecord()}" id="deleteButton"
+		icon="ui-icon-close" value="Delete" rendered="#{authorsBean.selectedRecord != null}">
+		<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton action="return" id="returnButton"
+		icon="ui-icon-arrowreturnthick-1-w" value="Return" />
+		
+</ui:define>
+
+</ui:composition>

@@ -1,0 +1,53 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<h:panelGrid columns="4" rendered="#{readersBean.selectedRecord != null}" styleClass="details-view">
+		<p:outputLabel for="readerId" value="Id" />
+		<h:outputText id="readerId" value="#{readersBean.selectedRecord.id}" />
+		
+		<h:outputText />
+		<h:outputText />
+		
+		<p:outputLabel for="name" value="Name" />
+		<h:outputText id="name" value="#{readersBean.selectedRecord.name}" />
+		
+		<p:outputLabel for="lastname" value="Lastname" />
+		<h:outputText id="lastname" value="#{readersBean.selectedRecord.lastname}" />
+				
+		<p:outputLabel for="password" value="Password" />
+		<h:outputText id="password" value="#{readersBean.selectedRecord.password}" />
+		
+		<p:outputLabel for="telephoneNumber" value="Telephone number" />
+		<h:outputText id="telephoneNumber" value="#{readersBean.selectedRecord.telephoneNumber}" />
+		
+		<p:outputLabel for="birthDate" value="Birth Date" />
+		<h:outputText id="birthDate" value="#{readersBean.selectedRecord.birthDate}">
+			<f:convertDateTime pattern="yyyy-MM-dd" />
+		</h:outputText>
+		
+		<p:outputLabel for="address" value="Address" />
+		<h:outputText id="address" value="#{readersBean.selectedRecord.address}" />
+
+	</h:panelGrid>
+	
+	<p:commandButton action="edit" id="editButton"
+		icon="ui-icon-pencil" value="Edit" rendered="#{readersBean.selectedRecord != null}" />
+	<p:commandButton action="#{readersBean.deleteRecord()}" id="deleteButton"
+		icon="ui-icon-close" value="Delete" rendered="#{readersBean.selectedRecord != null}">
+		<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+	</p:commandButton>
+	<p:commandButton action="return" id="returnButton"
+		icon="ui-icon-arrowreturnthick-1-w" value="Return" />
+		
+</ui:define>
+
+</ui:composition>

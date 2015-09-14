@@ -10,6 +10,33 @@
 		<set name="flowScope.index" value="2" />
 	</on-start>
 	
-	<view-state id="readersView" />
+	<view-state id="readersView">
+		<on-render>
+			<evaluate expression="readersBean.loadNewRecord()" />
+			<evaluate expression="readersBean.loadRecords()" />
+		</on-render>
+		<transition on="details" to="readersDetailsView" />
+		<transition on="add" to="readersEditView">
+			<set name="flowScope.editMode" value="'add'" />
+		</transition>
+	</view-state>
+	
+	<view-state id="readersDetailsView">
+		<on-render>
+			<evaluate expression="readersBean.loadRecord(flowScope.selectedId)" />
+		</on-render>
+		<transition on="edit" to="readersEditView">
+			<set name="flowScope.editMode" value="'edit'" />
+		</transition>
+		<transition on="return" to="readersView" />
+	</view-state>
+	
+	<view-state id="readersEditView">
+		<transition on="return" to="returnFromEdit" />
+	</view-state>
+	
+	<decision-state id="returnFromEdit">
+		<if test="flowScope.editMode == 'edit'" then="readersDetailsView" else="readersView" />
+	</decision-state>
 
 </flow>

@@ -1,0 +1,52 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<h:panelGrid columns="4" id="inputContainer" styleClass="details-view">
+		<p:outputLabel for="authorId" value="Id" />
+		<h:outputText id="authorId" value="#{authorsBean.selectedRecord.id}" />
+		
+		<h:outputText />
+		<h:outputText />
+		
+		<p:outputLabel for="name" value="Name" />
+		<p:inputText id="name" value="#{authorsBean.selectedRecord.name}" required="true" />
+		
+		<p:outputLabel for="lastname" value="Lastname" />
+		<p:inputText id="lastname" value="#{authorsBean.selectedRecord.lastname}" required="true" />
+				
+		<p:outputLabel for="genres" value="Genres" />
+		<p:inputText id="genres" value="#{authorsBean.selectedRecord.genres}" />
+		
+		<p:outputLabel for="nationality" value="Nationality" />
+		<p:inputText id="nationality" value="#{authorsBean.selectedRecord.nationality}" />
+		
+		<p:outputLabel for="birthDate" value="Birth Date" />
+		<p:calendar id="birthDate" value="#{authorsBean.selectedRecord.birthDate}"
+			pattern="yyyy-MM-dd" />
+		
+		<p:outputLabel for="deathDate" value="Death Date" />
+		<p:calendar id="deathDate" value="#{authorsBean.selectedRecord.deathDate}"
+			pattern="yyyy-MM-dd" />
+
+	</h:panelGrid>
+
+	<p:commandButton action="#{authorsBean.addRecord(flowScope.token)}" id="addButton" 
+		icon="ui-icon-plus" value="Add" rendered="#{flowScope.editMode == 'add'}" 
+		update="inputContainer" />
+	<p:commandButton action="#{authorsBean.updateRecord()}" id="saveButton" 
+		icon="ui-icon-disk" value="Save" rendered="#{flowScope.editMode == 'edit'}" 
+		update="inputContainer" />
+	<p:commandButton action="return" id="cancelButton" immediate="true"
+		icon="ui-icon-arrowreturnthick-1-w" value="Cancel" />
+</ui:define>
+
+</ui:composition>
