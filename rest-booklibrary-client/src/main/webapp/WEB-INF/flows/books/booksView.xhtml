@@ -10,7 +10,33 @@
 </ui:define>
 
 <ui:define name="content">
-	<p:dataTable var="book" value="#{booksBean.books}">
+	<p:panel id="searchPanel" header="Search" toggleable="true" widgetVar="searchPanel" styleClass="search-panel">
+	
+		<h:panelGrid columns="4" styleClass="details-view">
+		
+			<p:outputLabel for="title" value="Title" />
+			<p:inputText id="title" value="#{booksBean.titleLike}" />
+			
+			<p:outputLabel for="genre" value="Genre" />
+			<p:inputText id="genre" value="#{booksBean.genreLike}" />
+			
+			<p:outputLabel for="authorName" value="Author name" />
+			<p:inputText id="authorName" value="#{booksBean.authorNameLike}" />
+			
+			<p:outputLabel for="authorLastname" value="Author lastname" />
+			<p:inputText id="authorLastname" value="#{booksBean.authorLastnameLike}" />
+
+		</h:panelGrid>
+		
+		<p:commandButton value="Search" update="table" onclick="PF('searchPanel').toggle()"
+			actionListener="#{booksBean.loadBooks()}" />
+	
+	</p:panel>
+	<p:dataTable id="table" var="book" value="#{booksBean.books}">
+		<f:facet name="header">
+			<h:outputText value="Books" />
+		</f:facet>
+	
 		<p:column headerText="Id">
 			<h:outputText value="#{book.id}" />
 		</p:column>
@@ -31,17 +57,19 @@
 			<h:outputText value="#{book.language}" />
 		</p:column>
 		
-		<p:column width="90">
+		<p:column width="40">
 			<p:commandButton action="details" id="detailsButton" 
-				icon="ui-icon-search" title="Details" />
-			<p:commandButton action="delete" id="deleteButton"
-				icon="ui-icon-close" title="Delete" />
+				icon="ui-icon-search" title="Details">
+				<f:setPropertyActionListener target="#{flowScope.selectedId}" value="#{book.id}" />
+			</p:commandButton>
 		</p:column>
 
 	</p:dataTable>
 	
 	<p:commandButton action="add" id="addButton"
-		icon="ui-icon-plus" value="Add new book" />
+		icon="ui-icon-plus" value="Add new">
+		<f:setPropertyActionListener target="#{flowScope.token}" value="#{booksBean.createToken()}" />
+	</p:commandButton>
 		
 </ui:define>
 

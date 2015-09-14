@@ -1,0 +1,56 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	    		xmlns:ui="http://java.sun.com/jsf/facelets"
+	  			xmlns:h="http://java.sun.com/jsf/html"
+	  			xmlns:f="http://java.sun.com/jsf/core"
+	  			xmlns:p="http://primefaces.org/ui"
+				template="/WEB-INF/layouts/standard.xhtml">
+
+<ui:define name="headIncludes">
+</ui:define>
+
+<ui:define name="content">
+	<h:panelGrid columns="4" id="inputContainer" styleClass="details-view">
+		<p:outputLabel for="bookId" value="Id" />
+		<h:outputText id="bookId" value="#{booksBean.selectedBook.id}" />
+		
+		<p:outputLabel for="title" value="Title" />
+		<p:inputText id="title" value="#{booksBean.selectedBook.title}" required="true" />
+		
+		<p:outputLabel for="author" value="Author" />
+		<p:selectOneMenu id="author" value="#{booksBean.selectedBook.author.id}" effect="fade" 
+			filter="true" filterMatchMode="contains" required="true">
+			<f:selectItem itemLabel="" />
+			<f:selectItems value="#{booksBean.authors}" var="a" itemValue="#{a.id}" 
+				itemLabel="#{a.name} #{a.lastname}" />
+		</p:selectOneMenu>
+		
+		<p:outputLabel for="genre" value="Genre" />
+		<p:inputText id="genre" value="#{booksBean.selectedBook.genre}" required="true" />
+		
+		<p:outputLabel for="lang" value="Language" />
+		<p:inputText id="lang" value="#{booksBean.selectedBook.language}" />
+		
+		<p:outputLabel for="isbn" value="ISBN" />
+		<p:inputText id="isbn" value="#{booksBean.selectedBook.isbn}" />
+		
+		<p:outputLabel for="releaseDate" value="Release Date" />
+		<p:calendar id="releaseDate" value="#{booksBean.selectedBook.releaseDate}"
+			pattern="yyyy-MM-dd" />
+		
+		<p:outputLabel for="releasePlace" value="Release Place" />
+		<p:inputText id="releasePlace" value="#{booksBean.selectedBook.releasePlace}" />	
+
+	</h:panelGrid>
+
+	<p:commandButton action="#{booksBean.addBook(flowScope.token)}" id="addButton" 
+		icon="ui-icon-plus" value="Add" rendered="#{flowScope.editMode == 'add'}" 
+		update="inputContainer" />
+	<p:commandButton action="#{booksBean.updateBook()}" id="saveButton" 
+		icon="ui-icon-disk" value="Save" rendered="#{flowScope.editMode == 'edit'}" 
+		update="inputContainer" />
+	<p:commandButton action="return" id="cancelButton" immediate="true"
+		icon="ui-icon-arrowreturnthick-1-w" value="Cancel" />
+</ui:define>
+
+</ui:composition>

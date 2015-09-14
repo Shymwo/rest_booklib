@@ -10,6 +10,35 @@
 		<set name="flowScope.index" value="0" />
 	</on-start>
 	
-	<view-state id="booksView" />
+	<view-state id="booksView">
+		<on-render>
+			<evaluate expression="booksBean.loadNewBook()" />
+		</on-render>
+		<transition on="details" to="booksDetailsView" />
+		<transition on="add" to="booksEditView">
+			<set name="flowScope.editMode" value="'add'" />
+		</transition>
+	</view-state>
+	
+	<view-state id="booksDetailsView">
+		<on-render>
+			<evaluate expression="booksBean.loadBook(flowScope.selectedId)" />
+		</on-render>
+		<transition on="edit" to="booksEditView">
+			<set name="flowScope.editMode" value="'edit'" />
+		</transition>
+		<transition on="return" to="booksView" />
+	</view-state>
+	
+	<view-state id="booksEditView">
+		<on-render>
+			<evaluate expression="booksBean.loadAuthors()" />
+		</on-render>
+		<transition on="return" to="returnFromEdit" />
+	</view-state>
+	
+	<decision-state id="returnFromEdit">
+		<if test="flowScope.editMode == 'edit'" then="booksDetailsView" else="booksView" />
+	</decision-state>
 
 </flow>

@@ -34,9 +34,14 @@
 	    <p:column width="40">
 	    	<p:commandButton action="details" id="detailsButton" 
 	    		icon="ui-icon-search" title="Details" />
-	    </p:column>
+			<p:commandButton action="delete" id="deleteButton"
+				icon="ui-icon-close" title="Delete" />
+		</p:column>
 
 	</p:dataTable>
+	
+	<p:commandButton action="add" id="addButton"
+		icon="ui-icon-plus" value="Add new book" />
 </ui:define>
 
 </ui:composition>

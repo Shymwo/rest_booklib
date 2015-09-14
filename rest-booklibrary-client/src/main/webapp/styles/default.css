@@ -4,3 +4,16 @@
 	font-size: 28px;
 	text-align: center;
 }
+.details-view td {
+	padding: 8px;
+	border-bottom: 1px solid #ccc;
+}
+.details-view {
+	padding-bottom: 10px;
+}
+.search-panel {
+	margin: 10px 0px;
+}
+.ui-datatable {
+	margin: 10px 0px;
+}

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,9 @@ public class BookDaoImpl implements BookDao {
 
 	@Override
 	public void updateBook(Book book) {
-		sessionFactory.getCurrentSession().update(book);
+		Session session = sessionFactory.getCurrentSession();
+		Book oldBook = (Book) session.merge(book);
+		sessionFactory.getCurrentSession().update(oldBook);
 	}
 
 	@Override
@@ -38,6 +41,7 @@ public class BookDaoImpl implements BookDao {
 
 	@Override
 	public Book getBook(Integer id) {
+		sessionFactory.getCurrentSession().flush();
 		return (Book) sessionFactory.getCurrentSession().get(Book.class, id);
 	}
 

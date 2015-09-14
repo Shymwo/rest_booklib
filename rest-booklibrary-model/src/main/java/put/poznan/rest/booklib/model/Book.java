@@ -12,6 +12,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import put.poznan.rest.booklib.model.helper.JsonDateSerializer;
+import put.poznan.rest.booklib.model.helper.JsonDateDeserializer;
 
 @Entity
 @Table(name="ksiazki")
@@ -38,6 +43,8 @@ public class Book implements Serializable {
 	private String language;
 	
 	@Column(name="data_wydania")
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date releaseDate;
 	
 	@Column(name="miejsce_wydania")
