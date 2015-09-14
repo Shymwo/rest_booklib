@@ -29,10 +29,10 @@
 		</h:panelGrid>
 		
 		<p:commandButton value="Search" update="table" onclick="PF('searchPanel').toggle()"
-			actionListener="#{booksBean.loadBooks()}" />
+			actionListener="#{booksBean.loadRecords()}" />
 	
 	</p:panel>
-	<p:dataTable id="table" var="book" value="#{booksBean.books}">
+	<p:dataTable id="table" var="book" value="#{booksBean.records}">
 		<f:facet name="header">
 			<h:outputText value="Books" />
 		</f:facet>

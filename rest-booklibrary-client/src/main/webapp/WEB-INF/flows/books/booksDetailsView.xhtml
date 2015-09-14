@@ -10,39 +10,39 @@
 </ui:define>
 
 <ui:define name="content">
-	<h:panelGrid columns="4" rendered="#{booksBean.selectedBook != null}" styleClass="details-view">
+	<h:panelGrid columns="4" rendered="#{booksBean.selectedRecord != null}" styleClass="details-view">
 		<p:outputLabel for="bookId" value="Id" />
-		<h:outputText id="bookId" value="#{booksBean.selectedBook.id}" />
+		<h:outputText id="bookId" value="#{booksBean.selectedRecord.id}" />
 		
 		<p:outputLabel for="title" value="Title" />
-		<h:outputText id="title" value="#{booksBean.selectedBook.title}" />
+		<h:outputText id="title" value="#{booksBean.selectedRecord.title}" />
 		
 		<p:outputLabel for="author" value="Author" />
-		<h:outputText id="author" value="#{booksBean.selectedBook.author.name} #{booksBean.selectedBook.author.lastname}" />
+		<h:outputText id="author" value="#{booksBean.selectedRecord.author.name} #{booksBean.selectedRecord.author.lastname}" />
 		
 		<p:outputLabel for="genre" value="Genre" />
-		<h:outputText id="genre" value="#{booksBean.selectedBook.genre}" />
+		<h:outputText id="genre" value="#{booksBean.selectedRecord.genre}" />
 		
 		<p:outputLabel for="lang" value="Language" />
-		<h:outputText id="lang" value="#{booksBean.selectedBook.language}" />
+		<h:outputText id="lang" value="#{booksBean.selectedRecord.language}" />
 		
 		<p:outputLabel for="isbn" value="ISBN" />
-		<h:outputText id="isbn" value="#{booksBean.selectedBook.isbn}" />
+		<h:outputText id="isbn" value="#{booksBean.selectedRecord.isbn}" />
 		
 		<p:outputLabel for="releaseDate" value="Release Date" />
-		<h:outputText id="releaseDate" value="#{booksBean.selectedBook.releaseDate}">
+		<h:outputText id="releaseDate" value="#{booksBean.selectedRecord.releaseDate}">
 			<f:convertDateTime pattern="yyyy-MM-dd" />
 		</h:outputText>
 		
 		<p:outputLabel for="releasePlace" value="Release Place" />
-		<h:outputText id="releasePlace" value="#{booksBean.selectedBook.releasePlace}" />		
+		<h:outputText id="releasePlace" value="#{booksBean.selectedRecord.releasePlace}" />		
 
 	</h:panelGrid>
 	
 	<p:commandButton action="edit" id="editButton"
-		icon="ui-icon-pencil" value="Edit" rendered="#{booksBean.selectedBook != null}" />
-	<p:commandButton action="#{booksBean.deleteBook()}" id="deleteButton"
-		icon="ui-icon-close" value="Delete" rendered="#{booksBean.selectedBook != null}">
+		icon="ui-icon-pencil" value="Edit" rendered="#{booksBean.selectedRecord != null}" />
+	<p:commandButton action="#{booksBean.deleteRecord()}" id="deleteButton"
+		icon="ui-icon-close" value="Delete" rendered="#{booksBean.selectedRecord != null}">
 		<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 	</p:commandButton>
 	<p:commandButton action="return" id="returnButton"

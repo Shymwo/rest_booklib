@@ -5,12 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import put.poznan.rest.booklib.model.Author;
@@ -18,13 +12,9 @@ import put.poznan.rest.booklib.model.Book;
 import put.poznan.rest.booklib.util.FacesMessageUtil;
 import put.poznan.rest.booklib.util.PropertyUtil;
  
-public class BooksBean implements Serializable {
+public class BooksBean extends CommonBean<Book> implements Serializable {
      
 	private static final long serialVersionUID = -4642774537753298469L;
-	
-	private List<Book> books;
-	
-	private Book selectedBook;
 	
 	private List<Author> authors;
 	
@@ -37,24 +27,6 @@ public class BooksBean implements Serializable {
 	private String authorLastnameLike;
 	
 	@SuppressWarnings("unchecked")
-	public void loadBooks() {
-		try {
-			String path = PropertyUtil.getProperty("rest.uri")
-					+"/books?titleLike={titleLike}&genreLike={genreLike}"
-					+ "&authorNameLike={authorNameLike}&authorLastnameLike={authorLastnameLike}";
-			Map<String, String> urlVariables = new HashMap<String, String>();
-			urlVariables.put("titleLike", titleLike);
-			urlVariables.put("genreLike", genreLike);
-			urlVariables.put("authorNameLike", authorNameLike);
-			urlVariables.put("authorLastnameLike", authorLastnameLike);
-			RestTemplate restTemplate = new RestTemplate();
-			books = restTemplate.getForObject(path, List.class, urlVariables);
-		} catch (Exception e) {
-			FacesMessageUtil.showError(e);
-		}
-	}
-	
-	@SuppressWarnings("unchecked")
 	public void loadAuthors() {
 		try {
 			String path = PropertyUtil.getProperty("rest.uri")+"/authors";
@@ -65,131 +37,39 @@ public class BooksBean implements Serializable {
 		}
 	}
 	
-	public void loadBook(Integer id) {
-		try {
-			selectedBook = null;
-			String path = PropertyUtil.getProperty("rest.uri")+"/books/"+id;
-			RestTemplate restTemplate = new RestTemplate();
-			HttpEntity<Void> entity = new HttpEntity<Void>(new HttpHeaders());
-			ResponseEntity<Book> response = restTemplate.exchange(
-				    path, HttpMethod.GET, entity, Book.class);
-			if(HttpStatus.OK.value() != response.getStatusCode().value()) {
-				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
-				return;
-			}
-			selectedBook = response.getBody();
-			selectedBook.setEtag(response.getHeaders().getETag());
-		} catch (Exception e) {
-			FacesMessageUtil.showError(e);
-		}
-	}
-	
-	public void loadNewBook() {
-		selectedBook = new Book();
-		selectedBook.setAuthor(new Author());
-	}
-	
-	public String createToken() {
-		try {
-			String tokenPath = PropertyUtil.getProperty("rest.uri")+"/tokens";
-			RestTemplate restTemplate = new RestTemplate();
-			HttpEntity<Void> entity = new HttpEntity<Void>(new HttpHeaders());
-			ResponseEntity<String> response = restTemplate.exchange(
-				    tokenPath, HttpMethod.POST, entity, String.class);
-			if (HttpStatus.CREATED.value() != response.getStatusCode().value()) {
-				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
-				return null;
-			}
-			return response.getBody();
-		} catch (Exception e) {
-			FacesMessageUtil.showError(e);
-			return null;
-		}
-	}
-	
-	public String addBook(String token) {
-		try {
-			String path = PropertyUtil.getProperty("rest.uri")+"/books?token="+token;
-			RestTemplate restTemplate = new RestTemplate();
-			HttpEntity<Book> entity = new HttpEntity<Book>(selectedBook, new HttpHeaders());
-			ResponseEntity<Book> response = restTemplate.exchange(
-				    path, HttpMethod.POST, entity, Book.class);
-			if (HttpStatus.CREATED.value() == response.getStatusCode().value()) {
-				FacesMessageUtil.showSuccessInfo();
-			} else {
-				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
-				return null;
-			}
-		} catch (HttpClientErrorException e) {
-			FacesMessageUtil.showError(e);
-			return null;
-		}
-		return "return";
-	}
-	
-	public String updateBook() {
-		try {
-			String path = PropertyUtil.getProperty("rest.uri")+"/books/"+selectedBook.getId();
-			RestTemplate restTemplate = new RestTemplate();
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("If-Match", selectedBook.getEtag());
-			HttpEntity<Book> entity = new HttpEntity<Book>(selectedBook, headers);
-			ResponseEntity<Book> response = restTemplate.exchange(
-				    path, HttpMethod.PUT, entity, Book.class);
-			if (HttpStatus.ACCEPTED.value() == response.getStatusCode().value()) {
-				FacesMessageUtil.showSuccessInfo();
-			} else {
-				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
-				return null;
-			}
-		} catch (Exception e) {
-			FacesMessageUtil.showError(e);
-			return null;
-		}
-		return "return";
-	}
-	
-	public String deleteBook() {
-		try {
-			String path = PropertyUtil.getProperty("rest.uri")+"/books/"+selectedBook.getId();
-			RestTemplate restTemplate = new RestTemplate();
-			HttpHeaders headers = new HttpHeaders();
-			headers.set("If-Match", selectedBook.getEtag());
-			HttpEntity<Void> entity = new HttpEntity<Void>(headers);
-			ResponseEntity<Void> response = restTemplate.exchange(
-				    path, HttpMethod.DELETE, entity, Void.class);
-			if (HttpStatus.NO_CONTENT.value() == response.getStatusCode().value()) {
-				FacesMessageUtil.showSuccessInfo();
-			} else {
-				FacesMessageUtil.showInvalidStatusWarn(response.getStatusCode());
-				return null;
-			}
-			
-		} catch (Exception e) {
-			FacesMessageUtil.showError(e);
-			if (!e.getMessage().contains(Integer.toString(HttpStatus.NOT_FOUND.value()))) {
-				return null;
-			}
-		}
-		return "return";
+	@Override
+	public void loadNewRecord() {
+		setSelectedRecord(new Book());
+		getSelectedRecord().setAuthor(new Author());
 	}
 
-	public List<Book> getBooks() {
-		return books;
+	@Override
+	public String getUrl() {
+		return PropertyUtil.getProperty("rest.uri")+"/books";
 	}
 
-	public void setBooks(List<Book> books) {
-		this.books = books;
+	@Override
+	public Map<String, String> getVarsForLoadRecords() {
+		Map<String, String> urlVariables = new HashMap<String, String>();
+		urlVariables.put("titleLike", titleLike);
+		urlVariables.put("genreLike", genreLike);
+		urlVariables.put("authorNameLike", authorNameLike);
+		urlVariables.put("authorLastnameLike", authorLastnameLike);
+		return urlVariables;
 	}
 
-	public Book getSelectedBook() {
-		return selectedBook;
+	@Override
+	public String getUrlForLoadRecords() {
+		return PropertyUtil.getProperty("rest.uri")
+				+"/books?titleLike={titleLike}&genreLike={genreLike}"
+				+ "&authorNameLike={authorNameLike}&authorLastnameLike={authorLastnameLike}";
 	}
 
-	public void setSelectedBook(Book selectedBook) {
-		this.selectedBook = selectedBook;
+	@Override
+	public Class<Book> getRecordClass() {
+		return Book.class;
 	}
-
+	
 	public List<Author> getAuthors() {
 		return authors;
 	}

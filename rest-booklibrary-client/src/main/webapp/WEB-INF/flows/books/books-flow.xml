@@ -12,7 +12,8 @@
 	
 	<view-state id="booksView">
 		<on-render>
-			<evaluate expression="booksBean.loadNewBook()" />
+			<evaluate expression="booksBean.loadNewRecord()" />
+			<evaluate expression="booksBean.loadRecords()" />
 		</on-render>
 		<transition on="details" to="booksDetailsView" />
 		<transition on="add" to="booksEditView">
@@ -22,7 +23,7 @@
 	
 	<view-state id="booksDetailsView">
 		<on-render>
-			<evaluate expression="booksBean.loadBook(flowScope.selectedId)" />
+			<evaluate expression="booksBean.loadRecord(flowScope.selectedId)" />
 		</on-render>
 		<transition on="edit" to="booksEditView">
 			<set name="flowScope.editMode" value="'edit'" />

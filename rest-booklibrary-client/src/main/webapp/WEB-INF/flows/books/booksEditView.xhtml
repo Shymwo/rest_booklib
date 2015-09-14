@@ -12,13 +12,13 @@
 <ui:define name="content">
 	<h:panelGrid columns="4" id="inputContainer" styleClass="details-view">
 		<p:outputLabel for="bookId" value="Id" />
-		<h:outputText id="bookId" value="#{booksBean.selectedBook.id}" />
+		<h:outputText id="bookId" value="#{booksBean.selectedRecord.id}" />
 		
 		<p:outputLabel for="title" value="Title" />
-		<p:inputText id="title" value="#{booksBean.selectedBook.title}" required="true" />
+		<p:inputText id="title" value="#{booksBean.selectedRecord.title}" required="true" />
 		
 		<p:outputLabel for="author" value="Author" />
-		<p:selectOneMenu id="author" value="#{booksBean.selectedBook.author.id}" effect="fade" 
+		<p:selectOneMenu id="author" value="#{booksBean.selectedRecord.author.id}" effect="fade" 
 			filter="true" filterMatchMode="contains" required="true">
 			<f:selectItem itemLabel="" />
 			<f:selectItems value="#{booksBean.authors}" var="a" itemValue="#{a.id}" 
@@ -26,27 +26,27 @@
 		</p:selectOneMenu>
 		
 		<p:outputLabel for="genre" value="Genre" />
-		<p:inputText id="genre" value="#{booksBean.selectedBook.genre}" required="true" />
+		<p:inputText id="genre" value="#{booksBean.selectedRecord.genre}" required="true" />
 		
 		<p:outputLabel for="lang" value="Language" />
-		<p:inputText id="lang" value="#{booksBean.selectedBook.language}" />
+		<p:inputText id="lang" value="#{booksBean.selectedRecord.language}" />
 		
 		<p:outputLabel for="isbn" value="ISBN" />
-		<p:inputText id="isbn" value="#{booksBean.selectedBook.isbn}" />
+		<p:inputText id="isbn" value="#{booksBean.selectedRecord.isbn}" />
 		
 		<p:outputLabel for="releaseDate" value="Release Date" />
-		<p:calendar id="releaseDate" value="#{booksBean.selectedBook.releaseDate}"
+		<p:calendar id="releaseDate" value="#{booksBean.selectedRecord.releaseDate}"
 			pattern="yyyy-MM-dd" />
 		
 		<p:outputLabel for="releasePlace" value="Release Place" />
-		<p:inputText id="releasePlace" value="#{booksBean.selectedBook.releasePlace}" />	
+		<p:inputText id="releasePlace" value="#{booksBean.selectedRecord.releasePlace}" />	
 
 	</h:panelGrid>
 
-	<p:commandButton action="#{booksBean.addBook(flowScope.token)}" id="addButton" 
+	<p:commandButton action="#{booksBean.addRecord(flowScope.token)}" id="addButton" 
 		icon="ui-icon-plus" value="Add" rendered="#{flowScope.editMode == 'add'}" 
 		update="inputContainer" />
-	<p:commandButton action="#{booksBean.updateBook()}" id="saveButton" 
+	<p:commandButton action="#{booksBean.updateRecord()}" id="saveButton" 
 		icon="ui-icon-disk" value="Save" rendered="#{flowScope.editMode == 'edit'}" 
 		update="inputContainer" />
 	<p:commandButton action="return" id="cancelButton" immediate="true"

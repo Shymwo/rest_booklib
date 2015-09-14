@@ -10,10 +10,15 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
+import put.poznan.rest.booklib.model.helper.JsonDateDeserializer;
+import put.poznan.rest.booklib.model.helper.JsonDateSerializer;
 
 @Entity
 @Table(name="czytelnicy")
-public class Reader implements Serializable {
+public class Reader extends BaseModel implements Serializable {
 	
 	private static final long serialVersionUID = -3021973812347819044L;
 
@@ -36,6 +41,8 @@ public class Reader implements Serializable {
 	private String password;
 	
 	@Column(name="data_urodzenia")
+	@JsonSerialize(using = JsonDateSerializer.class)
+	@JsonDeserialize(using = JsonDateDeserializer.class)
 	private Date birthDate;
 	
 	@Column(name="miejsce_zamieszkania")

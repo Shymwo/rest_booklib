@@ -20,7 +20,7 @@ import put.poznan.rest.booklib.model.helper.JsonDateDeserializer;
 
 @Entity
 @Table(name="ksiazki")
-public class Book implements Serializable {
+public class Book extends BaseModel implements Serializable {
 	
 	private static final long serialVersionUID = -5538023118350842454L;
 
