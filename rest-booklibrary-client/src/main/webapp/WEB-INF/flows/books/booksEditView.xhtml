@@ -37,7 +37,7 @@
 		
 		<p:outputLabel for="releaseDate" value="Release Date" />
 		<p:calendar id="releaseDate" value="#{booksBean.selectedRecord.releaseDate}"
-			pattern="yyyy-MM-dd" />
+			pattern="yyyy-MM-dd" navigator="true" />
 		
 		<p:outputLabel for="releasePlace" value="Release Place" />
 		<p:inputText id="releasePlace" value="#{booksBean.selectedRecord.releasePlace}" />	

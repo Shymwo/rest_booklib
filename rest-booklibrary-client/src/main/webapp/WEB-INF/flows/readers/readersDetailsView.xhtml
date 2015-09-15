@@ -76,7 +76,12 @@
 			<h:outputText value="#{book.language}" />
 		</p:column>
 		
-		<p:column width="40">
+		<p:column width="90">
+			<p:commandButton action="bookDetails" id="detailsButton" 
+				icon="ui-icon-search" title="Details">
+				<f:setPropertyActionListener target="#{flowScope.selectedBookId}" value="#{book.id}" />
+				<f:setPropertyActionListener target="#{flowScope.hideBookEditButtons}" value="true" />
+			</p:commandButton>
 			<p:commandButton actionListener="#{booksBean.deleteRecord(book.id)}" id="returnBookButton" 
 				icon="ui-icon-close" title="Return book" update="table" />
 		</p:column>

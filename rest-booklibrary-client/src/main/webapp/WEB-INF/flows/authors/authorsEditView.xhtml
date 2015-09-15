@@ -31,11 +31,11 @@
 		
 		<p:outputLabel for="birthDate" value="Birth Date" />
 		<p:calendar id="birthDate" value="#{authorsBean.selectedRecord.birthDate}"
-			pattern="yyyy-MM-dd" />
+			pattern="yyyy-MM-dd" navigator="true" />
 		
 		<p:outputLabel for="deathDate" value="Death Date" />
 		<p:calendar id="deathDate" value="#{authorsBean.selectedRecord.deathDate}"
-			pattern="yyyy-MM-dd" />
+			pattern="yyyy-MM-dd" navigator="true" />
 
 	</h:panelGrid>
 

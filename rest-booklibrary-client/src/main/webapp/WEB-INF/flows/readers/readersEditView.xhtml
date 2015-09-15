@@ -31,7 +31,7 @@
 		
 		<p:outputLabel for="birthDate" value="Birth Date" />
 		<p:calendar id="birthDate" value="#{readersBean.selectedRecord.birthDate}"
-			pattern="yyyy-MM-dd" />
+			pattern="yyyy-MM-dd" navigator="true" />
 		
 		<p:outputLabel for="address" value="Address" />
 		<p:inputText id="address" value="#{readersBean.selectedRecord.address}" />

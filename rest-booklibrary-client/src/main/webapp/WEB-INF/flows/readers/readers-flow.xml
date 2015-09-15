@@ -33,6 +33,7 @@
 		</transition>
 		<transition on="return" to="readersView" />
 		<transition on="selectBookToBorrow" to="booksFlow" />
+		<transition on="bookDetails" to="booksDetailsView" />
 	</view-state>
 	
 	<view-state id="readersEditView">
@@ -42,6 +43,13 @@
 	<decision-state id="returnFromEdit">
 		<if test="flowScope.editMode == 'edit'" then="readersDetailsView" else="readersView" />
 	</decision-state>
+	
+	<view-state id="booksDetailsView" view="../books/booksDetailsView.xhtml">
+		<on-render>
+			<evaluate expression="booksBean.loadRecord(flowScope.selectedBookId)" />
+		</on-render>
+		<transition on="return" to="readersDetailsView" />
+	</view-state>
 	
 	<subflow-state id="booksFlow" subflow="books">
 		<input name="wantToBorrowBook" value="true" />

@@ -43,9 +43,11 @@
 	</h:panelGrid>
 	
 	<p:commandButton action="edit" id="editButton"
-		icon="ui-icon-pencil" value="Edit" rendered="#{booksBean.selectedRecord != null}" />
+		icon="ui-icon-pencil" value="Edit" 
+		rendered="#{booksBean.selectedRecord != null and not flowScope.hideBookEditButtons}" />
 	<p:commandButton action="#{booksBean.deleteRecord()}" id="deleteButton"
-		icon="ui-icon-close" value="Delete" rendered="#{booksBean.selectedRecord != null}">
+		icon="ui-icon-close" value="Delete" 
+		rendered="#{booksBean.selectedRecord != null and not flowScope.hideBookEditButtons}">
 		<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
 	</p:commandButton>
 	<p:commandButton action="return" id="returnButton"
