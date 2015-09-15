@@ -23,8 +23,8 @@
 		<p:outputLabel for="lastname" value="Lastname" />
 		<h:outputText id="lastname" value="#{readersBean.selectedRecord.lastname}" />
 				
-		<p:outputLabel for="password" value="Password" />
-		<h:outputText id="password" value="#{readersBean.selectedRecord.password}" />
+		<h:outputText />
+		<h:outputText />
 		
 		<p:outputLabel for="telephoneNumber" value="Telephone number" />
 		<h:outputText id="telephoneNumber" value="#{readersBean.selectedRecord.telephoneNumber}" />
@@ -47,6 +47,51 @@
 	</p:commandButton>
 	<p:commandButton action="return" id="returnButton"
 		icon="ui-icon-arrowreturnthick-1-w" value="Return" />
+		
+	<p:dataTable id="table" var="book" value="#{booksBean.records}" paginator="true" rows="10"
+		paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+		rowsPerPageTemplate="5,10,15" paginatorPosition="bottom" rendered="#{readersBean.selectedRecord != null}">
+		
+		<f:facet name="header">
+			<h:outputText value="Books" />
+		</f:facet>
+	
+		<p:column headerText="Id" sortBy="#{book.id}">
+			<h:outputText value="#{book.id}" />
+		</p:column>
+		
+		<p:column headerText="Title" sortBy="#{book.title}">
+			<h:outputText value="#{book.title}" />
+		</p:column>
+		
+		<p:column headerText="Author" sortBy="#{book.author.lastname}">
+			<h:outputText value="#{book.author.name} #{book.author.lastname}" />
+		</p:column>
+		
+		<p:column headerText="Genre" sortBy="#{book.genre}">
+			<h:outputText value="#{book.genre}" />
+		</p:column>
+		
+		<p:column headerText="Language" sortBy="#{book.language}">
+			<h:outputText value="#{book.language}" />
+		</p:column>
+		
+		<p:column width="40">
+			<p:commandButton actionListener="#{booksBean.deleteRecord(book.id)}" id="returnBookButton" 
+				icon="ui-icon-close" title="Return book" update="table" />
+		</p:column>
+
+	</p:dataTable>
+	
+	<p:commandButton action="selectBookToBorrow" id="borrowNewBookButton" 
+		value="Borrow new book" icon="ui-icon-plus" update="table"
+		rendered="#{readersBean.selectedRecord != null}" />
+	
+	<p:commandButton actionListener="#{booksBean.deleteAll()}" id="returnAllBooksButton" 
+		value="Return all books" icon="ui-icon-close" update="table"
+		rendered="#{readersBean.selectedRecord != null}">
+		<p:confirm header="Confirmation" message="Are you sure?" icon="ui-icon-alert" />
+	</p:commandButton>
 		
 </ui:define>
 

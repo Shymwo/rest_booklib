@@ -8,9 +8,9 @@ import put.poznan.rest.booklib.model.Reader;
 import put.poznan.rest.booklib.util.PropertyUtil;
  
 public class ReadersBean extends CommonBean<Reader> implements Serializable {
-    
-	private static final long serialVersionUID = -4642774537753298469L;
 	
+	private static final long serialVersionUID = 1925783016399317129L;
+
 	private String nameLike;
 	
 	private String lastnameLike;

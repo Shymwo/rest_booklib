@@ -132,7 +132,8 @@ public abstract class CommonBean<T extends BaseModel> implements Serializable {
 			
 		} catch (Exception e) {
 			FacesMessageUtil.showError(e);
-			if (!e.getMessage().contains(Integer.toString(HttpStatus.NOT_FOUND.value()))) {
+			if (e.getMessage() != null && 
+					!e.getMessage().contains(Integer.toString(HttpStatus.NOT_FOUND.value()))) {
 				return null;
 			}
 		}

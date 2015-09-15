@@ -6,8 +6,11 @@
 	
 	<var name="booksBean" class="put.poznan.rest.booklib.bean.BooksBean"/>
 	
+	<input name="wantToBorrowBook" />
+	
 	<on-start>
 		<set name="flowScope.index" value="0" />
+		<set name="flowScope.wantToBorrowBook" value="wantToBorrowBook" />
 	</on-start>
 	
 	<view-state id="booksView">
@@ -19,6 +22,8 @@
 		<transition on="add" to="booksEditView">
 			<set name="flowScope.editMode" value="'add'" />
 		</transition>
+		<transition on="borrowBook" to="finishBorrow" />
+		<transition on="cancelBorrow" to="cancelBorrow" />
 	</view-state>
 	
 	<view-state id="booksDetailsView">
@@ -41,5 +46,14 @@
 	<decision-state id="returnFromEdit">
 		<if test="flowScope.editMode == 'edit'" then="booksDetailsView" else="booksView" />
 	</decision-state>
+	
+	<end-state id="finishBorrow">
+		<on-entry>
+			<evaluate expression="booksBean.loadRecord(flowScope.borrowedId)" />
+		</on-entry>
+		<output name="borrowedBook" value="booksBean.selectedRecord" type="put.poznan.rest.booklib.model.Book" />
+	</end-state>
+	
+	<end-state id="cancelBorrow" />
 
 </flow>

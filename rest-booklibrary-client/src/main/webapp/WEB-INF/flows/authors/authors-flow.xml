@@ -5,6 +5,7 @@
 	parent="parent-flow">
 	
 	<var name="authorsBean" class="put.poznan.rest.booklib.bean.AuthorsBean"/>
+	<var name="booksBean" class="put.poznan.rest.booklib.bean.AuthorBooksBean" />
 	
 	<on-start>
 		<set name="flowScope.index" value="1" />
@@ -24,9 +25,15 @@
 	<view-state id="authorsDetailsView">
 		<on-render>
 			<evaluate expression="authorsBean.loadRecord(flowScope.selectedId)" />
+			<evaluate expression="booksBean.setAuthorId(flowScope.selectedId)" />
+			<evaluate expression="booksBean.loadRecords()" />
 		</on-render>
 		<transition on="edit" to="authorsEditView">
 			<set name="flowScope.editMode" value="'edit'" />
+		</transition>
+		<transition on="bookDetails" to="booksDetailsView" />
+		<transition on="addBook" to="booksEditView">
+			<set name="flowScope.editMode" value="'add'" />
 		</transition>
 		<transition on="return" to="authorsView" />
 	</view-state>
@@ -37,6 +44,28 @@
 	
 	<decision-state id="returnFromEdit">
 		<if test="flowScope.editMode == 'edit'" then="authorsDetailsView" else="authorsView" />
+	</decision-state>
+	
+	<view-state id="booksDetailsView" view="../books/booksDetailsView.xhtml">
+		<on-render>
+			<evaluate expression="booksBean.loadRecord(flowScope.selectedBookId)" />
+		</on-render>
+		<transition on="edit" to="booksEditView">
+			<set name="flowScope.editMode" value="'edit'" />
+		</transition>
+		<transition on="return" to="authorsDetailsView" />
+	</view-state>
+	
+	<view-state id="booksEditView" view="../books/booksEditView.xhtml">
+		<on-render>
+			<evaluate expression="booksBean.loadAuthors()" />
+			<set name="flowScope.disableAuthorSelection" value="true" />
+		</on-render>
+		<transition on="return" to="returnFromEditBook" />
+	</view-state>
+	
+	<decision-state id="returnFromEditBook">
+		<if test="flowScope.editMode == 'edit'" then="booksDetailsView" else="authorsDetailsView" />
 	</decision-state>
 
 </flow>

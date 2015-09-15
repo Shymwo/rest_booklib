@@ -99,7 +99,7 @@ public class BookDaoImpl implements BookDao {
 	@Override
 	public void returnAllBooks(Integer readerId) {
 		Query query = sessionFactory.getCurrentSession().
-				createQuery("update ksiazki set czytelnik_id = null where czytelnik_id = :readerId");
+				createQuery("update Book set czytelnik_id = null where czytelnik_id = :readerId");
 		query.setParameter("readerId", readerId);
 		query.executeUpdate();
 	}

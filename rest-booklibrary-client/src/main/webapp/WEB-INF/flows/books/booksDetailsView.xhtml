@@ -35,7 +35,10 @@
 		</h:outputText>
 		
 		<p:outputLabel for="releasePlace" value="Release Place" />
-		<h:outputText id="releasePlace" value="#{booksBean.selectedRecord.releasePlace}" />		
+		<h:outputText id="releasePlace" value="#{booksBean.selectedRecord.releasePlace}" />
+		
+		<p:outputLabel for="borrower" value="Borrowed by" />
+		<h:outputText id="borrower" value="#{booksBean.selectedRecord.reader.name} #{booksBean.selectedRecord.reader.lastname}" />		
 
 	</h:panelGrid>
 	

@@ -19,7 +19,8 @@
 		
 		<p:outputLabel for="author" value="Author" />
 		<p:selectOneMenu id="author" value="#{booksBean.selectedRecord.author.id}" effect="fade" 
-			filter="true" filterMatchMode="contains" required="true">
+			filter="true" filterMatchMode="contains" required="true"
+			disabled="#{flowScope.disableAuthorSelection}">
 			<f:selectItem itemLabel="" />
 			<f:selectItems value="#{booksBean.authors}" var="a" itemValue="#{a.id}" 
 				itemLabel="#{a.name} #{a.lastname}" />

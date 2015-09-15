@@ -8,13 +8,13 @@ import put.poznan.rest.booklib.model.Author;
 import put.poznan.rest.booklib.util.PropertyUtil;
  
 public class AuthorsBean extends CommonBean<Author> implements Serializable {
-     
-	private static final long serialVersionUID = -4642774537753298469L;
 	
+	private static final long serialVersionUID = 1105095805699585811L;
+
 	private String nameLike;
 	
 	private String lastnameLike;
-	
+		
 	@Override
 	public void loadNewRecord() {
 		setSelectedRecord(new Author());

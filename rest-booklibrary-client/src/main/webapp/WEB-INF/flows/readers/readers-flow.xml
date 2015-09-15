@@ -5,6 +5,7 @@
 	parent="parent-flow">
 	
 	<var name="readersBean" class="put.poznan.rest.booklib.bean.ReadersBean"/>
+<var name="booksBean" class="put.poznan.rest.booklib.bean.ReaderBooksBean" />
 	
 	<on-start>
 		<set name="flowScope.index" value="2" />
@@ -24,11 +25,14 @@
 	<view-state id="readersDetailsView">
 		<on-render>
 			<evaluate expression="readersBean.loadRecord(flowScope.selectedId)" />
+			<evaluate expression="booksBean.setReaderId(flowScope.selectedId)" />
+			<evaluate expression="booksBean.loadRecords()" />
 		</on-render>
 		<transition on="edit" to="readersEditView">
 			<set name="flowScope.editMode" value="'edit'" />
 		</transition>
 		<transition on="return" to="readersView" />
+		<transition on="selectBookToBorrow" to="booksFlow" />
 	</view-state>
 	
 	<view-state id="readersEditView">
@@ -38,5 +42,14 @@
 	<decision-state id="returnFromEdit">
 		<if test="flowScope.editMode == 'edit'" then="readersDetailsView" else="readersView" />
 	</decision-state>
+	
+	<subflow-state id="booksFlow" subflow="books">
+		<input name="wantToBorrowBook" value="true" />
+		<output name="borrowedBook" type="put.poznan.rest.booklib.model.Book" />
+		<transition on="finishBorrow" to="readersDetailsView">
+			<evaluate expression="booksBean.updateRecord(borrowedBook)" />
+		</transition>
+		<transition on="cancelBorrow" to="readersDetailsView" />
+	</subflow-state>
 
 </flow>

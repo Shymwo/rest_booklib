@@ -59,6 +59,8 @@ public class BookServiceImpl implements BookService {
 	@Transactional
 	public void updateBook(Book book, Integer authorId) {
 		Book temp = getBook(book.getId(), authorId, null);
+		book.setAuthor(new Author());
+		book.getAuthor().setId(authorId);
 		updateBook(book, temp.getEtag());
 	}
 	

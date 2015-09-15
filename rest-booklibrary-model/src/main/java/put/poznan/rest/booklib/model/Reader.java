@@ -37,9 +37,6 @@ public class Reader extends BaseModel implements Serializable {
 	@Column(name="nazwisko")
 	private String lastname;
 	
-	@Column(name="haslo")
-	private String password;
-	
 	@Column(name="data_urodzenia")
 	@JsonSerialize(using = JsonDateSerializer.class)
 	@JsonDeserialize(using = JsonDateDeserializer.class)
@@ -73,14 +70,6 @@ public class Reader extends BaseModel implements Serializable {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public Date getBirthDate() {

@@ -60,10 +60,14 @@
 			<h:outputText value="#{book.language}" />
 		</p:column>
 		
-		<p:column width="40">
+		<p:column width="#{flowScope.wantToBorrowBook ? '150' : '40'}">
 			<p:commandButton action="details" id="detailsButton" 
 				icon="ui-icon-search" title="Details">
 				<f:setPropertyActionListener target="#{flowScope.selectedId}" value="#{book.id}" />
+			</p:commandButton>
+			<p:commandButton action="borrowBook" id="borrowButton" value="Borrow"
+				rendered="#{flowScope.wantToBorrowBook and book.reader == null}">
+				<f:setPropertyActionListener target="#{flowScope.borrowedId}" value="#{book.id}" />
 			</p:commandButton>
 		</p:column>
 
@@ -73,7 +77,8 @@
 		icon="ui-icon-plus" value="Add new">
 		<f:setPropertyActionListener target="#{flowScope.token}" value="#{booksBean.createToken()}" />
 	</p:commandButton>
-		
+	<p:commandButton action="cancelBorrow" id="cancelBorrowButton" value="Return"
+		rendered="#{flowScope.wantToBorrowBook}" />		
 </ui:define>
 
 </ui:composition>
